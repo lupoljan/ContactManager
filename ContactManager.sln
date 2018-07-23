@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManagerApp", "Contac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManagerApp.Tests", "ContactManagerApp.Tests\ContactManagerApp.Tests.csproj", "{CDA799C3-00F1-4393-AD63-F786EAD401F1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManagerClient", "ContactManagerClient\ContactManagerClient.csproj", "{F5AF124B-B2D0-4B66-9EA0-4F1033865F87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{CDA799C3-00F1-4393-AD63-F786EAD401F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA799C3-00F1-4393-AD63-F786EAD401F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA799C3-00F1-4393-AD63-F786EAD401F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5AF124B-B2D0-4B66-9EA0-4F1033865F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AF124B-B2D0-4B66-9EA0-4F1033865F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AF124B-B2D0-4B66-9EA0-4F1033865F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AF124B-B2D0-4B66-9EA0-4F1033865F87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
