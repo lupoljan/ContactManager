@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using System.Web.Http.Results;
@@ -63,89 +64,164 @@ namespace ContactManagerApp.Tests.Controllers
         //
         #endregion
 
+        private ContactRepository _repository;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _repository = new ContactRepository();
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            _repository = null;
+        }
 
         [TestMethod]
         public void Get_ShouldReturnAllContacts()
         {
             var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
-
-            var result = controller.Get() as List<Contact>;
-            Assert.AreEqual(testContacts.Count, result.Count);
+            var result = _repository.GetAll();
+            Assert.AreEqual(testContacts.Count, result.Count());
         }
 
         [TestMethod]
         public void Get_ShouldReturnCorrectContact()
         {
             var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
-
-            var result = controller.Get(1) as OkNegotiatedContentResult<Contact>;
+            var result = _repository.Get(1);
             Assert.IsNotNull(result);
-            Assert.AreEqual(testContacts[0].FirstName, result.Content.FirstName);
+            Assert.AreEqual(testContacts[0].FirstName, result.FirstName);
         }
 
         [TestMethod]
         public void Get_ShouldNotFindContact()
         {
-            var controller = new ContactController(GetTestContacts());
-
-            var result = controller.Get(999);
-            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+            var result = _repository.Get(999);
+            Assert.IsNull(result);
         }
 
         [TestMethod]
         public void Post_ShouldAddNewContact()
         {
-            var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
+            var contact = new Contact
+            {
+                Id = 6,
+                FirstName = "Name6",
+                LastName = "LastName6"
+            };
 
-            controller.Post(new Contact { Id = 6, FirstName = "Name6", LastName = "LastName6" });
-            Assert.IsNotNull(testContacts[5].Id);
-            Assert.AreEqual(testContacts[5].Id, 6);
+            var addedcontact = _repository.Add(contact);
+            Assert.AreEqual(contact, addedcontact);
         }
 
         [TestMethod]
         public void Post_FirstNameRequired()
         {
-            var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
+            var contact = new Contact
+            {
+                Id = 6,
+                FirstName = "Name6",
+                LastName = "LastName6"
+            };
 
-            controller.Post(new Contact { Id = 6, FirstName = "Name6", LastName = "LastName6" });
-            Assert.IsNotNull(testContacts[5].FirstName);
-            Assert.AreEqual(testContacts[5].FirstName, "Name6");
+            var addedcontact = _repository.Add(contact);
+            Assert.AreEqual(contact, addedcontact);
+            Assert.IsNotNull(addedcontact.FirstName);
         }
 
         [TestMethod]
         public void Post_LastNameRequired()
         {
-            var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
+            var contact = new Contact
+            {
+                Id = 6,
+                FirstName = "Name6",
+                LastName = "LastName6"
+            };
 
-            controller.Post(new Contact { Id = 6, FirstName = "Name6", LastName = "LastName6" });
-            Assert.IsNotNull(testContacts[5].LastName);
-            Assert.AreEqual(testContacts[5].LastName, "LastName6");
+            var addedcontact = _repository.Add(contact);
+            Assert.AreEqual(contact, addedcontact);
+            Assert.IsNotNull(addedcontact.LastName);
         }
-        [TestMethod]
-        public void Delete_ShouldDeleteContact()
-        {
-            var testContacts = GetTestContacts();
-            var controller = new ContactController(testContacts);
-            int id = 5;
-            int count = testContacts.Count;
 
-            controller.Delete(id);
-            Assert.AreEqual(testContacts.Count, count-1);
+        [TestMethod]
+        public void Remove_ShouldDeleteContact()
+        {
+            int id = 5;
+            _repository.Remove(id);
+            Assert.IsNull(_repository.Get(id));
+        }
+
+        [TestMethod]
+        public void Update_ShouldEditContact()
+        {
+            var contact = new Contact
+            {
+                Id = 6,
+                FirstName = "Name6",
+                LastName = "LastName6"
+            };
+
+            var addedcontact = _repository.Add(contact);
+
+            addedcontact.Id = 10;
+            addedcontact.FirstName = "Name10";
+            addedcontact.LastName = "LastName10";
+
+            var updatedcontact = _repository.Update(addedcontact);
+            Assert.IsTrue(updatedcontact);
         }
 
         private List<Contact> GetTestContacts()
         {
             var testContacts = new List<Contact>();
-            testContacts.Add(new Contact { Id = 1, FirstName = "Name1", LastName = "LastName1" });
-            testContacts.Add(new Contact { Id = 2, FirstName = "Name2", LastName = "LastName2" });
-            testContacts.Add(new Contact { Id = 3, FirstName = "Name3", LastName = "LastName3" });
-            testContacts.Add(new Contact { Id = 4, FirstName = "Name4", LastName = "LastName4" });
-            testContacts.Add(new Contact { Id = 5, FirstName = "Name5", LastName = "LastName5" });
+            testContacts.Add(new Contact
+            {
+                Id = 1,
+                FirstName = "John",
+                LastName = "Doe",
+                DateOfBirth = new DateTime(1995, 04, 03),
+                Email = "mail@example.com",
+                PhoneNumber = "123 345 678"
+            });
+            testContacts.Add(new Contact
+            {
+                Id = 2,
+                FirstName = "Name2",
+                LastName = "LastName2",
+                DateOfBirth = new DateTime(1995, 04, 03),
+                Email = "mail2@example.com",
+                PhoneNumber = "123 345 678"
+            });
+            testContacts.Add(new Contact
+            {
+                Id = 3,
+                FirstName = "Name3",
+                LastName = "LastName3",
+                DateOfBirth = new DateTime(1995, 04, 03),
+                Email = "mail3@example.com",
+                PhoneNumber = "123 345 678"
+            });
+            testContacts.Add(new Contact
+            {
+                Id = 4,
+                FirstName = "Name4",
+                LastName = "LastName4",
+                DateOfBirth = new DateTime(1995, 04, 03),
+                Email = "mail4@example.com",
+                PhoneNumber = "123 345 678"
+            });
+            testContacts.Add(new Contact
+            {
+                Id = 5,
+                FirstName = "Name5",
+                LastName = "LastName5",
+                DateOfBirth = new DateTime(1995, 04, 03),
+                Email = "mail5@example.com",
+                PhoneNumber = "123 345 678"
+            });
 
             return testContacts;
         }

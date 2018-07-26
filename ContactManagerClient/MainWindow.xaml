@@ -5,15 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactManagerClient"
         mc:Ignorable="d"
-        Title="ContactManagerClient" Height="550" Width="525">
+        Title="ContactManagerClient" Height="550" Width="625">
     <Grid Margin="0,0,-8,-122">
-        <DataGrid Name="contactgrid" 
-
-        HorizontalAlignment="Left" Margin="28,23,0,0" 
-
-                 AutoGenerateColumns="True" 
-
-                 VerticalAlignment="Top" Height="185" Width="451"/>
+        <DataGrid Name="contactgrid" HorizontalAlignment="Left" Margin="28,23,0,0" 
+                 AutoGenerateColumns="True" VerticalAlignment="Top" Height="185" Width="505" SelectionChanged="contactgrid_SelectionChanged" CanUserAddRows="False">
+        </DataGrid>
         <Label Content="First Name" HorizontalAlignment="
         Left" Margin="37,259,0,0" VerticalAlignment="Top" 
 
@@ -52,25 +48,25 @@
         Height="23" Margin="359,296,0,0" TextWrapping="Wrap" 
 
         VerticalAlignment="Top" Width="120"/>
-        <Button Content="Add Contact" HorizontalAlignment="Left" Margin="269,349,0,0" VerticalAlignment="Top" Width="75" Click="Button_Add"/>
+        <Button Content="Add Contact" HorizontalAlignment="Left" Margin="359,344,0,0" VerticalAlignment="Top" Width="75" Click="Button_Add"/>
         <TextBox HorizontalAlignment="Left" Height="23" 
 
-        Margin="32,402,0,0" TextWrapping="Wrap" x:Name="txtSearch" 
+        Margin="32,383,0,0" TextWrapping="Wrap" x:Name="txtSearch" 
 
         Text="" VerticalAlignment="Top" Width="120"/>
         <Button Content="Search" HorizontalAlignment="Left" 
 
-        Margin="183,405,0,0" VerticalAlignment="Top" 
+        Margin="183,387,0,0" VerticalAlignment="Top" 
 
         Width="75" x:Name="btnSearch" Click="Button_Search"/>
         <TextBox HorizontalAlignment="Left" Height="23" 
 
-        Margin="32,455,0,0" TextWrapping="Wrap" Text="" 
+        Margin="307,420,0,0" TextWrapping="Wrap" Text="" 
 
         VerticalAlignment="Top" Width="120" x:Name="txtDelete"/>
         <Button Content="Delete" HorizontalAlignment="Left" 
 
-        Margin="183,459,0,0" VerticalAlignment="Top" 
+        Margin="458,424,0,0" VerticalAlignment="Top" 
 
         Width="75" x:Name="btnDelete" Click="Button_Delete"/>
         <Label Content="Id" HorizontalAlignment="Left" Margin="37,228,0,0" VerticalAlignment="Top" 
@@ -85,5 +81,22 @@
                     Margin="359,227,0,0"
                     VerticalAlignment="Top" x:Name="txtBirthDate" 
                     SelectedDateChanged="DatePicker_SelectedDateChanged" Width="120"/>
+        <Button Content="Edit Contact" HorizontalAlignment="Left" Margin="458,344,0,0" VerticalAlignment="Top" Width="75" Click="Button_Edit"/>
+        <TextBox HorizontalAlignment="Left" Height="23" 
+
+            Margin="32,450,0,0" TextWrapping="Wrap" x:Name="txtSearchName" 
+
+            Text="" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Search" HorizontalAlignment="Left" 
+
+            Margin="183,454,0,0" VerticalAlignment="Top" 
+
+            Width="75" x:Name="btnSearchName" Click="Button_SearchName"/>
+        <Label Content="Search by Id" HorizontalAlignment="Left" 
+
+            Margin="32,352,0,0" VerticalAlignment="Top"/>
+        <Label Content="Search by Name" HorizontalAlignment="Left" 
+
+            Margin="32,417,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
