@@ -223,12 +223,6 @@ namespace ContactManagerClient
             }
         }
 
-        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var picker = sender as DatePicker;
-            DateTime? date = picker.SelectedDate;
-        }
-
         private void contactgrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Contact rowSelected = (Contact)contactgrid.SelectedItem;
