@@ -76,7 +76,7 @@
 
             Height="23" Margin="138,228,0,0" TextWrapping="Wrap" 
 
-            VerticalAlignment="Top" Width="120"/>
+            VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
         <DatePicker HorizontalAlignment="Left"
                     Margin="359,227,0,0"
                     VerticalAlignment="Top" x:Name="txtBirthDate" 

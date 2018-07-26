@@ -54,6 +54,14 @@ namespace ContactManagerClient
 
         }
 
+        private bool ValidateInput(string text)
+        {
+            if (text == String.Empty)
+            {
+                return false;
+            }
+            return true;
+        }
         private void Button_Add(object sender, RoutedEventArgs e)
         {
             HttpClient client = new HttpClient();
@@ -69,16 +77,23 @@ namespace ContactManagerClient
             contact.PhoneNumber = txtPhone.Text;
             contact.DateOfBirth = DateTime.Parse(txtBirthDate.Text);
 
-            var response = client.PostAsJsonAsync("api/Contact", contact).Result;
-          //  MessageBox.Show(response.ToString());
-            MessageBox.Show("Contact Added");
-            txtId.Text = "";
-            txtFirst.Text = "";
-            txtLast.Text = "";
-            txtPhone.Text = "";
-            txtEmail.Text = "";
-            txtBirthDate.Text = "";
-            GetData();
+            if (ValidateInput(contact.FirstName) && ValidateInput(contact.LastName))
+            {
+                var response = client.PostAsJsonAsync("api/Contact", contact).Result;
+                //  MessageBox.Show(response.ToString());
+                MessageBox.Show("Contact Added");
+                txtId.Text = "";
+                txtFirst.Text = "";
+                txtLast.Text = "";
+                txtPhone.Text = "";
+                txtEmail.Text = "";
+                txtBirthDate.Text = "";
+                GetData();
+            }
+            else
+            {
+                MessageBox.Show("First Name and Last Name are required");
+            }
        }
 
         private void Button_Edit(object sender, RoutedEventArgs e)
@@ -94,23 +109,34 @@ namespace ContactManagerClient
             contact.LastName = txtLast.Text;
             contact.Email = txtEmail.Text;
             contact.PhoneNumber = txtPhone.Text;
-            contact.DateOfBirth = DateTime.Parse(txtBirthDate.Text);
-
-            HttpResponseMessage response = client.PutAsJsonAsync("api/Contact/" + contact.Id, contact).Result;
-            if (response.IsSuccessStatusCode)
+            if (txtBirthDate.Text != String.Empty)
             {
-                MessageBox.Show("Contact Edited");
-                txtId.Text = "";
-                txtFirst.Text = "";
-                txtLast.Text = "";
-                txtPhone.Text = "";
-                txtEmail.Text = "";
-                txtBirthDate.Text = "";
-                GetData();
+                contact.DateOfBirth = DateTime.Parse(txtBirthDate.Text);
             }
+
+            if (ValidateInput(contact.FirstName) && ValidateInput(contact.LastName))
+            {
+                HttpResponseMessage response = client.PutAsJsonAsync("api/Contact/" + contact.Id, contact).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show("Contact Edited");
+                    txtId.Text = "";
+                    txtFirst.Text = "";
+                    txtLast.Text = "";
+                    txtPhone.Text = "";
+                    txtEmail.Text = "";
+                    txtBirthDate.Text = "";
+                    GetData();
+                }
+                else
+                {
+                    MessageBox.Show("Error Code" + response.StatusCode + " : Message - " + response.ReasonPhrase);
+                }
+            }
+
             else
             {
-                MessageBox.Show("Error Code" + response.StatusCode + " : Message - " + response.ReasonPhrase);
+                MessageBox.Show("First Name and Last Name are required");
             }
         }
 
